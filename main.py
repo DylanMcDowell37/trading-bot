@@ -13,7 +13,7 @@ def fetch():
     
     return res
 
-def order(units, name, sl, tp):
+def order(account, units, name, sl, tp):
     headers = {
     "Content-Type": "application/json",
     "Authorization": "Bearer 43f645b4da56b5a0b17aba5f6ff1e516-f876bb867a2025add3f62d9a4eb2f60e"
@@ -36,7 +36,7 @@ def order(units, name, sl, tp):
     data = json.dumps(data)
     #Practice Account
     r = requests.post(
-        "https://api-fxpractice.oanda.com/v3/accounts/101-001-21951911-001/orders",
+        'https://api-fxpractice.oanda.com/v3/accounts/{account}/orders'.format(account=account),
         headers=headers,
         data=data
     )
@@ -56,7 +56,7 @@ def main():
                         name = str(new[i]['name'][:n] + '_' + new[i]['name'][n:]) 
                         sl = round(float(new[i]['price'])*0.001, 3)
                         tp = round(float(new[i]['price'])*0.002, 3)
-                        order(10, name, str(sl), str(tp))
+                        order('101-001-21951911-001', 10, name, str(sl), str(tp))
                         print(name, new[i]['rate'])
                         original = new
                         continue
@@ -66,7 +66,7 @@ def main():
                         name = str(new[i]['name'][:n] + '_' + new[i]['name'][n:]) 
                         sl = round(float(new[i]['price'])*0.001, 3)
                         tp = round(float(new[i]['price'])*0.002, 3)
-                        order(-10, name, str(sl), str(tp))
+                        order('101-001-21951911-005', -10, name, str(sl), str(tp))
                         print(name, new[i]['rate'])
                         original = new
                         continue
