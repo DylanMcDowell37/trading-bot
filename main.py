@@ -72,6 +72,7 @@ def main():
                         continue
                 
             else:
+                original = new
                 continue
             
 main()
