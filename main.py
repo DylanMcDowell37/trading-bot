@@ -54,8 +54,8 @@ def main():
                         #post buy to oanda api
                         n = 3
                         name = str(new[i]['name'][:n] + '_' + new[i]['name'][n:]) 
-                        sl = round(float(new[i]['price'])*0.0005, 3)
-                        tp = round(float(new[i]['price'])*0.001, 3)
+                        sl = round(float(new[i]['price'])*0.001, 3)
+                        tp = round(float(new[i]['price'])*0.002, 3)
                         order(10, name, str(sl), str(tp))
                         print(name, new[i]['rate'])
                         original = new
@@ -64,8 +64,8 @@ def main():
                         #post sell to oanda api
                         n = 3
                         name = str(new[i]['name'][:n] + '_' + new[i]['name'][n:]) 
-                        sl = round(float(new[i]['price'])*0.0005, 3)
-                        tp = round(float(new[i]['price'])*0.001, 3)
+                        sl = round(float(new[i]['price'])*0.001, 3)
+                        tp = round(float(new[i]['price'])*0.002, 3)
                         order(-10, name, str(sl), str(tp))
                         print(name, new[i]['rate'])
                         original = new
