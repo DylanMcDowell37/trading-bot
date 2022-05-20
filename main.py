@@ -2,10 +2,11 @@ from xml.etree.ElementInclude import include
 import requests
 import json
 import os
+import time
 
 
-def fetch():
-    url = "https://livemarketdata-dylanmcdowell37.vercel.app//api/currencies/forex/major"
+def fetch(type):
+    url = "https://livemarketdata-dylanmcdowell37.vercel.app//api/currencies/forex/{type}".format(type=type)
 
     data = requests.get(url).json()
 
@@ -43,10 +44,15 @@ def order(account, units, name, sl, tp):
     print(r.text)
 
 def main():
-    original = fetch()
+    request = 0
+    type = input("Enter type of currency(major or minor): ")
+    original = fetch(type)
     print('Running...')
     while True:
-        new = fetch()
+        time.sleep(30)
+        request += 1
+        print(request)
+        new = fetch(type)
         for i in range(len(original)):
             if original[i]['rate'] != new[i]['rate']:
                 if 'Buy' in new[i]['rate'] and 'Sell' in original[i]['rate'] or 'Sell' in new[i]['rate'] and 'Buy' in original[i]['rate'] or 'Neutral' in original[i]['rate']:
@@ -56,7 +62,7 @@ def main():
                         name = str(new[i]['name'][:n] + '_' + new[i]['name'][n:]) 
                         sl = round(float(new[i]['price'])*0.001, 3)
                         tp = round(float(new[i]['price'])*0.002, 3)
-                        order('101-001-21951911-001', 10, name, str(sl), str(tp))
+                        order('101-001-21951911-001', 100, name, str(sl), str(tp))
                         print(name, new[i]['rate'])
                         original = new
                         continue
@@ -66,7 +72,7 @@ def main():
                         name = str(new[i]['name'][:n] + '_' + new[i]['name'][n:]) 
                         sl = round(float(new[i]['price'])*0.001, 3)
                         tp = round(float(new[i]['price'])*0.002, 3)
-                        order('101-001-21951911-005', -10, name, str(sl), str(tp))
+                        order('101-001-21951911-005', -100, name, str(sl), str(tp))
                         print(name, new[i]['rate'])
                         original = new
                         continue
