@@ -44,14 +44,11 @@ def order(account, units, name, sl, tp):
     print(r.text)
 
 def main():
-    request = 0
     type = input("Enter type of currency(major or minor): ")
     original = fetch(type)
     print('Running...')
     while True:
         time.sleep(30)
-        request += 1
-        print(request)
         new = fetch(type)
         for i in range(len(original)):
             if original[i]['rate'] != new[i]['rate']:
