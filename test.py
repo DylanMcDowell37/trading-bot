@@ -1,9 +1,5 @@
-from xml.etree.ElementInclude import include
-import requests
+import time
 
-symbol = 'EURUSD'
-newRec = 'BUY'
-data = (symbol + ' ' + newRec)
-headers = {}
-values = {"text": "@dylan.mcdowell.iarc "+ data}
-response = requests.post('https://mattermost.energy.gov/hooks/w4q66gsjcbg67yzw8tw4amhgry', headers=headers, data=values)
+day = time.gmtime().tm_wday
+
+print(day)

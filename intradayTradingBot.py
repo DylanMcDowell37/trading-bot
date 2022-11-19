@@ -11,8 +11,8 @@ inputArray = [
         "symbol": "EURUSD",
         "screener": "forex",
         "exchange": Exchange.FOREX,
-        "open": 7,
-        "close": 19,
+        "open": 6,
+        "close": 15,
         "tp": 500,
         "sl": 250,
     },
@@ -20,8 +20,8 @@ inputArray = [
         "symbol": "USDJPY",
         "screener": "forex",
         "exchange": Exchange.FOREX,
-        "open": 12,
-        "close": 8,
+        "open": 6,
+        "close": 15,
         "tp": 400,
         "sl": 250,
     },
@@ -29,8 +29,8 @@ inputArray = [
         "symbol": "NZDUSD",
         "screener": "forex",
         "exchange": Exchange.FOREX,
-        "open": 12,
-        "close": 8,
+        "open": 6,
+        "close": 15,
         "tp": 500,
         "sl": 250,
     },
@@ -38,17 +38,8 @@ inputArray = [
         "symbol": "USDCHF",
         "screener": "forex",
         "exchange": Exchange.FOREX,
-        "open": 7,
-        "close": 19,
-        "tp": 500,
-        "sl": 250,
-    },
-    {
-        "symbol": "USDCAD",
-        "screener": "forex",
-        "exchange": Exchange.FOREX,
-        "open": 12,
-        "close": 21,
+        "open": 6,
+        "close": 15,
         "tp": 500,
         "sl": 250,
     },
@@ -56,17 +47,8 @@ inputArray = [
         "symbol": "AUDUSD",
         "screener": "forex",
         "exchange": Exchange.FOREX,
-        "open": 12,
-        "close": 8,
-        "tp": 500,
-        "sl": 250,
-    },
-    {
-        "symbol": "GBPUSD",
-        "screener": "forex",
-        "exchange": Exchange.FOREX,
-        "open": 7,
-        "close": 19,
+        "open": 6,
+        "close": 15,
         "tp": 500,
         "sl": 250,
     },
@@ -225,7 +207,7 @@ def main():
         comp = fetchComp()
         compTwo = fetchComptwo()
         # print(new)
-        if gmt >=0 and gmt <= 23:
+        if day < 7:
             
             for i in range(len(original)):
                 newRec = new[i]['COMPUTE']['Ichimoku'].replace('STRONG_', '')
@@ -282,7 +264,5 @@ def main():
             
             continue
         original = new 
-        time.sleep(90)   
+        time.sleep(60)   
 main()
-            
-        
