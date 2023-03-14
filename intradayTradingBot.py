@@ -201,68 +201,71 @@ def main():
     print('Running...')
     # print(original)
     while True:
-        gmt = time.gmtime().tm_hour
-        day = time.gmtime().tm_wday
-        new = fetch()
-        comp = fetchComp()
-        compTwo = fetchComptwo()
-        # print(new)
-        if day < 7:
-            
-            for i in range(len(original)):
-                newRec = new[i]['COMPUTE']['Ichimoku'].replace('STRONG_', '')
-                originalRec = original[i]['COMPUTE']['Ichimoku'].replace('STRONG_', '')
-                compRec = comp[i]['RECOMMENDATION'].replace('STRONG_', '')
-                compRectwo = compTwo[i]['RECOMMENDATION'].replace('STRONG_', '')
-                open = inputArray[i]["open"]
-                close = inputArray[i]["close"]
-                tp = inputArray[i]["tp"]
-                sl = inputArray[i]["sl"]
-                if gmt >= open and gmt <= close:
-                    if originalRec != newRec:
-                        if 'BUY' in compRec and 'BUY' in compRectwo:
-                            if ('SELL' in originalRec or 'NEUTRAL' in originalRec) and 'BUY' in newRec:
-                                symbol = inputArray[i]['symbol']
-                                symbol_info = mt5.symbol_info(symbol + '.HKT') 
-                                if symbol_info is None:
-                                    print(symbol + '.HKT', "not found, can not call order_check()")
+        try:
+            time.sleep(60) 
+            gmt = time.gmtime().tm_hour
+            day = time.gmtime().tm_wday
+            new = fetch()
+            comp = fetchComp()
+            compTwo = fetchComptwo()
+            # print(new)
+            if day < 7:
+                
+                for i in range(len(original)):
+                    newRec = new[i]['COMPUTE']['Ichimoku'].replace('STRONG_', '')
+                    originalRec = original[i]['COMPUTE']['Ichimoku'].replace('STRONG_', '')
+                    compRec = comp[i]['RECOMMENDATION'].replace('STRONG_', '')
+                    compRectwo = compTwo[i]['RECOMMENDATION'].replace('STRONG_', '')
+                    open = inputArray[i]["open"]
+                    close = inputArray[i]["close"]
+                    tp = inputArray[i]["tp"]
+                    sl = inputArray[i]["sl"]
+                    if gmt >= open and gmt <= close:
+                        if originalRec != newRec:
+                            if 'BUY' in compRec and 'BUY' in compRectwo:
+                                if ('SELL' in originalRec or 'NEUTRAL' in originalRec) and 'BUY' in newRec:
+                                    symbol = inputArray[i]['symbol']
+                                    symbol_info = mt5.symbol_info(symbol + '.HKT') 
+                                    if symbol_info is None:
+                                        print(symbol + '.HKT', "not found, can not call order_check()")
+                                        continue
+                                    if not symbol_info.visible:
+                                        print(symbol + '.HKT', "is not visible, trying to switch on")
+                                        continue                       
+                                    price = mt5.symbol_info_tick(symbol + '.HKT').ask
+                                    # print(symbol, new[i]['COMPUTE']['Ichimoku'], price)
+                                    mtbuyrequest(symbol, sl, tp, lot)
+                                    original = new
                                     continue
-                                if not symbol_info.visible:
-                                    print(symbol + '.HKT', "is not visible, trying to switch on")
-                                    continue                       
-                                price = mt5.symbol_info_tick(symbol + '.HKT').ask
-                                # print(symbol, new[i]['COMPUTE']['Ichimoku'], price)
-                                mtbuyrequest(symbol, sl, tp, lot)
-                                original = new
-                                continue
-                            else:
-                                continue
-                        elif 'SELL' in compRec and 'SELL' in compRectwo:
-                            if ('BUY' in originalRec or 'NEUTRAL' in originalRec) and 'SELL' in newRec:
-                                symbol = inputArray[i]['symbol']
-                                symbol_info = mt5.symbol_info(symbol + '.HKT')
-                                if symbol_info is None:
-                                    print(symbol + '.HKT', "not found, can not call order_check()")
+                                else:
                                     continue
-                                if not symbol_info.visible:
-                                    print(symbol + '.HKT', "is not visible, trying to switch on")
-                                    continue                        
-                                price = mt5.symbol_info_tick(symbol + '.HKT').bid
-                                # print(symbol, new[i]['COMPUTE']['Ichimoku'], price)
-                                mtsellrequest(symbol, sl, tp, lot)
-                                original = new
-                                continue
+                            elif 'SELL' in compRec and 'SELL' in compRectwo:
+                                if ('BUY' in originalRec or 'NEUTRAL' in originalRec) and 'SELL' in newRec:
+                                    symbol = inputArray[i]['symbol']
+                                    symbol_info = mt5.symbol_info(symbol + '.HKT')
+                                    if symbol_info is None:
+                                        print(symbol + '.HKT', "not found, can not call order_check()")
+                                        continue
+                                    if not symbol_info.visible:
+                                        print(symbol + '.HKT', "is not visible, trying to switch on")
+                                        continue                        
+                                    price = mt5.symbol_info_tick(symbol + '.HKT').bid
+                                    # print(symbol, new[i]['COMPUTE']['Ichimoku'], price)
+                                    mtsellrequest(symbol, sl, tp, lot)
+                                    original = new
+                                    continue
+                                else:
+                                    continue 
                             else:
                                 continue 
                         else:
-                            continue 
+                            continue
                     else:
                         continue
-                else:
-                    continue
-        else:
-            
-            continue
-        original = new 
-        time.sleep(60)   
+            else:
+                
+                continue
+            original = new 
+        except:
+            continue   
 main()
