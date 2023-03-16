@@ -202,15 +202,14 @@ def main():
     # print(original)
     while True:
         try:
-            time.sleep(60) 
+            time.sleep(30) 
             gmt = time.gmtime().tm_hour
             day = time.gmtime().tm_wday
             new = fetch()
             comp = fetchComp()
             compTwo = fetchComptwo()
             # print(new)
-            if day < 7:
-                
+            if day < 7:  
                 for i in range(len(original)):
                     newRec = new[i]['COMPUTE']['Ichimoku'].replace('STRONG_', '')
                     originalRec = original[i]['COMPUTE']['Ichimoku'].replace('STRONG_', '')
